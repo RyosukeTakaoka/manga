@@ -19,20 +19,15 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         let spacer: CGFloat = 8
         
         // collectionViewの表示設定
-        
         let layout = UICollectionViewFlowLayout()
         // 縦スクロールに設定
-        
         layout.scrollDirection = .vertical
         // セルの大きさ設定
-        
         layout.itemSize = CGSize(width: view.frame.width / 2 - spacer * 2, height:
                                     view.frame.width / 2 - spacer * 2)
         // 余白の設定
-        
         layout.sectionInset = UIEdgeInsets(top: spacer, left: spacer, bottom: spacer, right: spacer)
         // レイアウトをcollectionViewに適応させる
-        
         homeCollectionView.collectionViewLayout = layout
     }
     
@@ -55,7 +50,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         
         return cell
     }
-   
+    
     // CollectionViewのセルをタップした時
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
@@ -63,6 +58,6 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         // Identifierを指定して画面遷移する
         performSegue(withIdentifier: "toSecondViewController", sender: nil)
     }
-   
+    
 }
 
