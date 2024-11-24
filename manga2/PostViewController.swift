@@ -14,6 +14,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var selectImageButton: UIButton!
     
     let db = Firestore.firestore()
     var posts: [Post] = []
@@ -28,34 +29,50 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         fetchPosts()
     }
     
-    //ボタンがタップされた時
     @IBAction func postButtonTapped(_ sender: UIButton) {
-        //titleが空でないことを確認　からならelseを実行
+        // titleが空でないことを確認
         guard let title = titleTextField.text, !title.isEmpty else {
             // テキストが空の場合の処理
-            print("TextView is empty")
+            showAlert(message: "タイトルを入力してください。")
             return
         }
         
-        //空でない場合取得したtextを引数として渡します
-        savePostToFirestore(title: title)
+        // thumbnailが空でないことを確認
+        guard let thumbnail = thumbnailImageView.image else {
+            // サムネイル画像が空の場合の処理
+            showAlert(message: "サムネイル画像を選択してください。")
+            return
+        }
+        
+        // 空でない場合、取得したtextとthumbnailを引数として渡して保存処理
+        savePostToFirestore(title: title, thumbnail: thumbnail)
     }
+
+    // アラートを表示する関数
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "入力エラー", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(action)
+        present(alertController, animated: true, completion: nil)
+    }
+
     // 投稿後に特定のタブ（例えば1番目のタブ）に遷移
-    func savePostToFirestore(title: String) {
+    func savePostToFirestore(title: String, thumbnail: UIImage) {
         let uuid = UUID()
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let createdAt = formatter.string(from: currentDate)
         
-        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: createdAt)
+        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: "", createdAt: createdAt)
         
         let postData: [String: Any] = [
             "id": post.id,
             "title": post.title,
             "userId": post.userId,
             "postImages": post.postImages,
-            "thumbnailPost": post.thumbnailPost
+            "thumbnailPost": post.thumbnailPost,
+            "createdAt": createdAt
         ]
         
         // Firestoreにデータを保存
@@ -74,14 +91,14 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.tableView.reloadData()
                     
                     // アラートで通知
-                    self.showAlert(message: "投稿できました！")
+                    self.completeAlert(message: "投稿できました！")
                 }
             }
         }
     }
 
     // アラートを表示する関数
-    func showAlert(message: String) {
+    func completeAlert(message: String) {
         let alertController = UIAlertController(title: "確認", message: message, preferredStyle: .alert)
         
         // OKボタンが押されたときの処理
@@ -129,21 +146,20 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             
             // 取得したデータを辞書から`Post`型に変換して追加
-            self.posts = querySnapshot?.documents.compactMap { document in
+            self.posts = querySnapshot?.documents.compactMap { document -> Post in
                 let data = document.data()
                 
                 // 必要なフィールドを安全に取り出してPost型を生成
-                guard let id = data["id"] as? String,
-                      let title = data["title"] as? String,
-                      let userId = data["userId"] as? String,
-                      let postImages = data["postImages"] as? [String],
-                      let thumbnailPost = data["thumbnailPost"] as? String else {
-                    print("Invalid data format: \(data)")
-                    return nil
-                }
-                
-                return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost)
-            } ?? []
+                let id = data["id"] as? String ?? "defaultId"  // デフォルト値を設定
+                let title = data["title"] as? String ?? "No Title"  // デフォルト値を設定
+                let userId = data["userId"] as? String ?? "defaultUserId"  // デフォルト値を設定
+                let postImages = data["postImages"] as? [String] ?? []  // 空の配列を設定
+                let thumbnailPost = data["thumbnailPost"] as? String ?? "No Date"  // デフォルト値を設定
+                let createdAt = data["createdAt"] as? String ?? "No Date"  // createdAtを追加（デフォルト値）
+
+                // 必要なデータがない場合でもデフォルト値を使ってPost型を生成
+                return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt)
+            } ?? []  // compactMapがnilを返す場合は空の配列を返す
             
             // UIを更新
             DispatchQueue.main.async {
@@ -153,7 +169,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             print("Posts successfully fetched and stored: \(self.posts)")
         }
     }
-
 
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {

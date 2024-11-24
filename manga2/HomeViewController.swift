@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet var homeCollectionView: UICollectionView!
+    
+    let db = Firestore.firestore()
+    var posts: [Post] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +33,14 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         layout.sectionInset = UIEdgeInsets(top: spacer, left: spacer, bottom: spacer, right: spacer)
         // レイアウトをcollectionViewに適応させる
         homeCollectionView.collectionViewLayout = layout
+        //FIreBaseからデータを取得
+        fetchPosts()
     }
     
     //cellを表示する数
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        16
+        return posts.count
+        
     }
     //cellを表示する内容
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -41,12 +48,13 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         let cell:UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         
         //セル上のTag(1)とつけたUILabelを生成
-        let label = cell.contentView.viewWithTag(3) as! UILabel
+        let title = cell.contentView.viewWithTag(3) as! UILabel
         //セル上のTag(2)と付けたUIImageViewを作成
-        let image = cell.contentView.viewWithTag(4) as! UIImageView
+        let thumbnail = cell.contentView.viewWithTag(4) as! UIImageView
         
         //今回は簡易的にセルの番号をラベルのテキストに反映させる
-        label.text = String(indexPath.row + 1)
+        title.text = posts[indexPath.row].title
+        thumbnail.image =  UIImage(url: posts[indexPath.row].thumbnailPost)
         
         return cell
     }
@@ -58,6 +66,36 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         // Identifierを指定して画面遷移する
         performSegue(withIdentifier: "toSecondViewController", sender: nil)
     }
-    
+    // Firestoreからデータを取得
+    func fetchPosts() {
+        db.collection("posts").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting documents: \(error.localizedDescription)")
+                return
+            }
+            
+            // 取得したデータを辞書から`Post`型に変換して追加
+            self.posts = querySnapshot?.documents.compactMap { document -> Post in
+                let data = document.data()
+                // 必要なフィールドを安全に取り出してPost型を生成
+                let id = data["id"] as? String ?? "defaultId"  // デフォルト値を設定
+                let title = data["title"] as? String ?? "No Title"  // デフォルト値を設定
+                let userId = data["userId"] as? String ?? "defaultUserId"  // デフォルト値を設定
+                let postImages = data["postImages"] as? [String] ?? []  // 空の配列を設定
+                let thumbnailPost = data["thumbnailPost"] as? String ?? "No Thumbnai"  // デフォルト値を設定
+                let createdAt = data["createdAt"] as? String ?? "No Date"  // createdAtを追加（デフォルト値）
+
+                // 必要なデータがない場合でもデフォルト値を使ってPost型を生成
+                return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt)
+            } ?? []  // compactMapがnilを返す場合は空の配列を返す
+            
+            // UIを更新
+            DispatchQueue.main.async {
+                self.homeCollectionView.reloadData()
+            }
+            
+            print("Posts successfully fetched and stored: \(self.posts)")
+        }
+    }
 }
 

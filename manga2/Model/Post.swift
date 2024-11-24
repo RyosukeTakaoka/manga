@@ -4,4 +4,5 @@ struct Post: Codable {
     let userId: String
     let postImages: [String]
     let thumbnailPost: String
+    let createdAt: String
 }

@@ -53,6 +53,7 @@
 		77C186D42C83E9DF00DB0665 /* FIrebaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C186D32C83E9DF00DB0665 /* FIrebaseViewController.swift */; };
 		77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24B2CF2C29800FAEF9F /* Post.swift */; };
 		77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */; };
+		77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		77C186D32C83E9DF00DB0665 /* FIrebaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FIrebaseViewController.swift; sourceTree = "<group>"; };
 		77FEC24B2CF2C29800FAEF9F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				77BF9A382C4CBFD6005BF0F3 /* UIView.swift */,
+				77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				778E76F52B65EF0E0077C5F6 /* CreateViewController.swift in Sources */,
+				77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */,
 				77C186D42C83E9DF00DB0665 /* FIrebaseViewController.swift in Sources */,
 				778E76F72B65EF1F0077C5F6 /* UserViewController.swift in Sources */,
 				77BF9A3F2C4CDD39005BF0F3 /* PostViewController.swift in Sources */,

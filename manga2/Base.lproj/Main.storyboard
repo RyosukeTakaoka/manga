@@ -169,19 +169,9 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6dh-3z-ezm">
-                                <rect key="frame" x="16" y="249" width="357" height="209"/>
+                                <rect key="frame" x="16" y="236" width="357" height="209"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZ8-qe-BxD">
-                                <rect key="frame" x="16" y="249" width="357" height="209"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="サムネの画像を選ぶ"/>
-                                <connections>
-                                    <action selector="changeBackground" destination="NPh-kH-M1m" eventType="touchUpInside" id="yBv-u0-F4g"/>
-                                    <action selector="save" destination="NPh-kH-M1m" eventType="touchUpInside" id="wb3-yX-Qhj"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Do-Cc-7SI">
                                 <rect key="frame" x="16" y="151" width="361" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -196,12 +186,23 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="サムネイル画像" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etU-jG-6eB">
-                                <rect key="frame" x="16" y="215" width="112" height="21"/>
+                                <rect key="frame" x="16" y="207" width="112" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZ8-qe-BxD">
+                                <rect key="frame" x="101" y="448" width="186" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="画像を選ぶ"/>
+                                <connections>
+                                    <action selector="changeBackground" destination="NPh-kH-M1m" eventType="touchUpInside" id="yBv-u0-F4g"/>
+                                    <action selector="save" destination="NPh-kH-M1m" eventType="touchUpInside" id="wb3-yX-Qhj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="g2E-Rc-S5O"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -214,6 +215,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="selectImageButton" destination="aZ8-qe-BxD" id="7OB-OP-W2a"/>
                         <outlet property="tableView" destination="luO-1E-U9i" id="8L2-2w-97q"/>
                         <outlet property="thumbnailImageView" destination="6dh-3z-ezm" id="jbU-7I-8tt"/>
                         <outlet property="titleTextField" destination="9Do-Cc-7SI" id="WTa-Ys-Edg"/>
