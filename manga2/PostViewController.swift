@@ -105,35 +105,35 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             dismiss(animated: true)
         }
     }
-        @IBAction func changeBackground() {
-            //PHPickerViewControllerを用意
-            var configuration = PHPickerConfiguration()
-            
-            //選択できるアセットタイプを画像に限定
-            let filter = PHPickerFilter.images
-            configuration.filter = filter
-            let picker = PHPickerViewController(configuration: configuration)
-            
-            //デリケートを設定
-            picker.delegate = self
-            
-            //ピッカーを呼び出す
-            present(picker, animated: true)
-        }
-    
-        @IBAction func save() {
-            //画面のスクリーンショットを撮影
-            UIGraphicsBeginImageContextWithOptions(thumbnailImageView.frame.size, false, 0.0)
-            let context = UIGraphicsGetCurrentContext()!
-            context.translateBy(x: -thumbnailImageView.frame.origin.x, y: -thumbnailImageView.frame.origin.y)
-            view.layer.render(in: context)
-            let screenshot = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            //フォトライブラリに保存
-            UIImageWriteToSavedPhotosAlbum(screenshot!, nil, nil, nil)
-        }
+    @IBAction func changeBackground() {
+        //PHPickerViewControllerを用意
+        var configuration = PHPickerConfiguration()
         
+        //選択できるアセットタイプを画像に限定
+        let filter = PHPickerFilter.images
+        configuration.filter = filter
+        let picker = PHPickerViewController(configuration: configuration)
+        
+        //デリケートを設定
+        picker.delegate = self
+        
+        //ピッカーを呼び出す
+        present(picker, animated: true)
     }
     
+    @IBAction func save() {
+        //画面のスクリーンショットを撮影
+        UIGraphicsBeginImageContextWithOptions(thumbnailImageView.frame.size, false, 0.0)
+        let context = UIGraphicsGetCurrentContext()!
+        context.translateBy(x: -thumbnailImageView.frame.origin.x, y: -thumbnailImageView.frame.origin.y)
+        view.layer.render(in: context)
+        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        //フォトライブラリに保存
+        UIImageWriteToSavedPhotosAlbum(screenshot!, nil, nil, nil)
+    }
+    
+}
+
 
