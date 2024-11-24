@@ -155,29 +155,25 @@
             </objects>
             <point key="canvasLocation" x="2747.3282442748091" y="709.85915492957747"/>
         </scene>
-        <!--Post View Controller-->
+        <!--新規投稿-->
         <scene sceneID="z9k-gI-reO">
             <objects>
-                <viewController storyboardIdentifier="PostView" modalPresentationStyle="fullScreen" id="NPh-kH-M1m" customClass="PostViewController" customModule="manga2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PostView" title="新規投稿" modalPresentationStyle="fullScreen" id="NPh-kH-M1m" customClass="PostViewController" customModule="manga2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VkQ-ja-Njv">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="luO-1E-U9i">
-                                <rect key="frame" x="0.0" y="409" width="393" height="443"/>
+                                <rect key="frame" x="0.0" y="491" width="393" height="361"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Sf9-gv-4Ff">
-                                <rect key="frame" x="0.0" y="102" width="239" height="143"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6dh-3z-ezm">
+                                <rect key="frame" x="16" y="249" width="357" height="209"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZ8-qe-BxD">
-                                <rect key="frame" x="113" y="240" width="168" height="35"/>
+                                <rect key="frame" x="16" y="249" width="357" height="209"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="サムネの画像を選ぶ"/>
@@ -187,21 +183,37 @@
                                     <action selector="saveButtonTapped:" destination="NPh-kH-M1m" eventType="touchUpInside" id="Ti1-Mw-P12"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6dh-3z-ezm">
-                                <rect key="frame" x="77" y="273" width="240" height="128"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Do-Cc-7SI">
+                                <rect key="frame" x="16" y="151" width="361" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="タイトル" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cEx-kt-RyR">
+                                <rect key="frame" x="16" y="122" width="64" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="サムネイル画像" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="etU-jG-6eB">
+                                <rect key="frame" x="16" y="215" width="112" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="g2E-Rc-S5O"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Sjv-S2-uB4">
+                    <navigationItem key="navigationItem" title="新規投稿" id="Sjv-S2-uB4">
                         <barButtonItem key="rightBarButtonItem" title="投稿" id="1RZ-iT-bem"/>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="luO-1E-U9i" id="8L2-2w-97q"/>
-                        <outlet property="textVIew" destination="Sf9-gv-4Ff" id="hvS-Hp-JR1"/>
                         <outlet property="thumbnailImageView" destination="6dh-3z-ezm" id="jbU-7I-8tt"/>
+                        <outlet property="titleTextField" destination="9Do-Cc-7SI" id="WTa-Ys-Edg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="foB-Tb-fyc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -335,9 +347,6 @@
         <image name="person" catalog="system" width="128" height="121"/>
         <image name="person.crop.square.filled.and.at.rectangle.fill" catalog="system" width="128" height="93"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

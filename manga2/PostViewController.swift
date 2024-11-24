@@ -12,15 +12,12 @@ import PhotosUI
 class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PHPickerViewControllerDelegate {
     //tableViewの関連付け
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var textVIew: UITextView!
+    @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     
     let db = Firestore.firestore()
-    var post: [String] = []
-    
-    //messageArrayの数
-    var messageArray = [Any]()
+    var posts: [Post] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,41 +26,57 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         //delegateをself
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        fetchNotes()
-        
+        fetchPosts()
     }
+    
     //ボタンがタップされた時
     @IBAction func saveButtonTapped(_ sender: UIButton) {
-        //textが空でないことを確認　からならelseを実行
-        guard let text = textVIew.text, !text.isEmpty else {
+        //titleが空でないことを確認　からならelseを実行
+        guard let title = titleTextField.text, !title.isEmpty else {
             // テキストが空の場合の処理
             print("TextView is empty")
             return
         }
+        
         //空でない場合取得したtextを引数として渡します
-        saveTextToFirestore(text: text)
+        savePostToFirestore(title: title)
     }
-    //textViewをFIrebaseに保存する
-    func saveTextToFirestore(text: String) {
-        //Messageという名前のコレクション textはtext
-        db.collection("post").addDocument(
-            data: [
-                "title": text,
-                //                "createdAt": Timestamp()
-            ]
-        ) { error in
-            //エラーの処理
+    
+    // FirestoreにPostを保存する関数
+    func savePostToFirestore(title: String) {
+        let uuid = UUID()
+        let currentDate = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let createdAt = formatter.string(from: currentDate)
+        
+        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: createdAt)
+        
+        let postData: [String: Any] = [
+            "id": post.id,
+            "title": post.title,
+            "userId": post.userId,
+            "postImages": post.postImages,
+            "thumbnailPost": post.thumbnailPost
+        ]
+        
+        db.collection("posts").document(uuid.uuidString).setData(postData) { error in
             if let error = error {
-                print("Error adding document: \(error)")
+                print("Error saving post to Firestore: \(error.localizedDescription)")
             } else {
-                print("Document added successfully")
+                print("Post saved successfully!")
+                DispatchQueue.main.async {
+                    // Firestore保存成功後に`posts`配列を更新
+                    self.posts.append(post)
+                    self.tableView.reloadData()
+                }
             }
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //表示する数をmesseageArrayの個数にする
-        return messageArray.count
+        return posts.count
         
     }
     
@@ -73,23 +86,48 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         var content = cell.defaultContentConfiguration()
         //        //辞書型に無理やり決定
         //        let dictionary = messageArray[indexPath.row] as! [String: AnyObject]
-        content.text = "テスト"
-        cell.textLabel?.text = post[indexPath.row]
+//        content.text = "テスト"
+//        cell.textLabel?.text = posts[indexPath.row]
         //cellを返却
         return cell
     }
     
     // Firestoreからデータを取得
-    func fetchNotes() {
-        db.collection("post").getDocuments { (querySnapshot, error) in
+    func fetchPosts() {
+        db.collection("posts").getDocuments { (querySnapshot, error) in
             if let error = error {
-                print("Error getting documents: \(error)")
-            } else {
-                self.messageArray = querySnapshot?.documents.compactMap { $0.data()["content"] as? String } ?? []
+                print("Error getting documents: \(error.localizedDescription)")
+                return
+            }
+            
+            // 取得したデータを辞書から`Post`型に変換して追加
+            self.posts = querySnapshot?.documents.compactMap { document in
+                let data = document.data()
+                
+                // 必要なフィールドを安全に取り出してPost型を生成
+                guard let id = data["id"] as? String,
+                      let title = data["title"] as? String,
+                      let userId = data["userId"] as? String,
+                      let postImages = data["postImages"] as? [String],
+                      let thumbnailPost = data["thumbnailPost"] as? String else {
+                    print("Invalid data format: \(data)")
+                    return nil
+                }
+                
+                return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost)
+            } ?? []
+            
+            // UIを更新
+            DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
+            
+            print("Posts successfully fetched and stored: \(self.posts)")
         }
     }
+
+
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         //選択した画像の情報を取得
         let itemProvider = results.first?.itemProvider
@@ -133,6 +171,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         //フォトライブラリに保存
         UIImageWriteToSavedPhotosAlbum(screenshot!, nil, nil, nil)
     }
+    
+    
     
 }
 
