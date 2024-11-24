@@ -103,6 +103,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // OKボタンが押されたときの処理
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            self.titleTextField.text = ""
+            self.thumbnailImageView.image = nil
+            
+            self.navigationController?.popViewController(animated: true)
+            
             // OKボタンを押した後にタブを切り替え
             self.switchToTabBar(at: 0)  // 例えば、1番目のタブに遷移
         }))

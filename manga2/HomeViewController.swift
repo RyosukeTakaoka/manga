@@ -14,6 +14,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
     
     let db = Firestore.firestore()
     var posts: [Post] = []
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,14 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         homeCollectionView.collectionViewLayout = layout
         //FIreBaseからデータを取得
         fetchPosts()
+        //上に引っ張って更新するやつ
+        homeCollectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+    }
+    
+    @objc func refreshPost() {
+        fetchPosts()
+        self.refreshControl.endRefreshing()
     }
     
     //cellを表示する数
@@ -75,20 +84,33 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
             }
             
             // 取得したデータを辞書から`Post`型に変換して追加
-            self.posts = querySnapshot?.documents.compactMap { document -> Post in
+            self.posts = querySnapshot?.documents.compactMap { document -> Post? in
                 let data = document.data()
+                
                 // 必要なフィールドを安全に取り出してPost型を生成
                 let id = data["id"] as? String ?? "defaultId"  // デフォルト値を設定
                 let title = data["title"] as? String ?? "No Title"  // デフォルト値を設定
                 let userId = data["userId"] as? String ?? "defaultUserId"  // デフォルト値を設定
                 let postImages = data["postImages"] as? [String] ?? []  // 空の配列を設定
-                let thumbnailPost = data["thumbnailPost"] as? String ?? "No Thumbnai"  // デフォルト値を設定
+                let thumbnailPost = data["thumbnailPost"] as? String ?? "No Thumbnail"  // デフォルト値を設定
                 let createdAt = data["createdAt"] as? String ?? "No Date"  // createdAtを追加（デフォルト値）
 
                 // 必要なデータがない場合でもデフォルト値を使ってPost型を生成
                 return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt)
             } ?? []  // compactMapがnilを返す場合は空の配列を返す
             
+            // createdAtをDate型に変換してソート（新しい順）
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"  // createdAtの日付フォーマットを指定
+            
+            self.posts.sort { post1, post2 in
+                guard let date1 = dateFormatter.date(from: post1.createdAt),
+                      let date2 = dateFormatter.date(from: post2.createdAt) else {
+                    return false  // 日付の解析に失敗した場合は順序を変更しない
+                }
+                return date1 > date2  // 新しい日付が前に来るように並べ替え
+            }
+
             // UIを更新
             DispatchQueue.main.async {
                 self.homeCollectionView.reloadData()
@@ -97,5 +119,6 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
             print("Posts successfully fetched and stored: \(self.posts)")
         }
     }
+
 }
 
