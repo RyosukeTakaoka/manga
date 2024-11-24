@@ -180,7 +180,6 @@
                                 <connections>
                                     <action selector="changeBackground" destination="NPh-kH-M1m" eventType="touchUpInside" id="yBv-u0-F4g"/>
                                     <action selector="save" destination="NPh-kH-M1m" eventType="touchUpInside" id="wb3-yX-Qhj"/>
-                                    <action selector="saveButtonTapped:" destination="NPh-kH-M1m" eventType="touchUpInside" id="Ti1-Mw-P12"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Do-Cc-7SI">
@@ -208,7 +207,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="新規投稿" id="Sjv-S2-uB4">
-                        <barButtonItem key="rightBarButtonItem" title="投稿" id="1RZ-iT-bem"/>
+                        <barButtonItem key="rightBarButtonItem" title="投稿" id="1RZ-iT-bem">
+                            <connections>
+                                <action selector="postButtonTapped:" destination="NPh-kH-M1m" id="0H5-oH-hJb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="luO-1E-U9i" id="8L2-2w-97q"/>

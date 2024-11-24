@@ -13,7 +13,6 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     //tableViewの関連付け
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     
     let db = Firestore.firestore()
@@ -30,7 +29,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     //ボタンがタップされた時
-    @IBAction func saveButtonTapped(_ sender: UIButton) {
+    @IBAction func postButtonTapped(_ sender: UIButton) {
         //titleが空でないことを確認　からならelseを実行
         guard let title = titleTextField.text, !title.isEmpty else {
             // テキストが空の場合の処理
@@ -41,8 +40,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         //空でない場合取得したtextを引数として渡します
         savePostToFirestore(title: title)
     }
-    
-    // FirestoreにPostを保存する関数
+    // 投稿後に特定のタブ（例えば1番目のタブ）に遷移
     func savePostToFirestore(title: String) {
         let uuid = UUID()
         let currentDate = Date()
@@ -60,19 +58,49 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             "thumbnailPost": post.thumbnailPost
         ]
         
+        // Firestoreにデータを保存
         db.collection("posts").document(uuid.uuidString).setData(postData) { error in
             if let error = error {
                 print("Error saving post to Firestore: \(error.localizedDescription)")
+                // エラーメッセージをアラートで表示
+                DispatchQueue.main.async {
+                    self.showAlert(message: "投稿の保存に失敗しました。再試行してください。")
+                }
             } else {
                 print("Post saved successfully!")
                 DispatchQueue.main.async {
                     // Firestore保存成功後に`posts`配列を更新
                     self.posts.append(post)
                     self.tableView.reloadData()
+                    
+                    // アラートで通知
+                    self.showAlert(message: "投稿できました！")
                 }
             }
         }
     }
+
+    // アラートを表示する関数
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "確認", message: message, preferredStyle: .alert)
+        
+        // OKボタンが押されたときの処理
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            // OKボタンを押した後にタブを切り替え
+            self.switchToTabBar(at: 0)  // 例えば、1番目のタブに遷移
+        }))
+        
+        present(alertController, animated: true, completion: nil)
+    }
+
+    // 特定のTabBarで切り替えた画面に遷移
+    func switchToTabBar(at index: Int) {
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = index
+        }
+    }
+
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //表示する数をmesseageArrayの個数にする
