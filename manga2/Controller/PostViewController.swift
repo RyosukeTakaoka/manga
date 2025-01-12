@@ -19,6 +19,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     let db = Firestore.firestore()
     var posts: [Post] = []
     
+    var canvasImages: [UIImage] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //dataSourceをself
@@ -27,6 +29,8 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         fetchPosts()
+        
+        print(canvasImages)
     }
     
     @IBAction func postButtonTapped(_ sender: UIButton) {
@@ -126,7 +130,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //表示する数をmesseageArrayの個数にする
-        return posts.count
+        return canvasImages.count
         
     }
     
@@ -134,10 +138,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         //名前をCellにする
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        //        //辞書型に無理やり決定
-        //        let dictionary = messageArray[indexPath.row] as! [String: AnyObject]
-//        content.text = "テスト"
-//        cell.textLabel?.text = posts[indexPath.row]
+        cell.imageView?.image = canvasImages[indexPath.row]
         //cellを返却
         return cell
     }

@@ -136,7 +136,6 @@
                             <barButtonItem title="次へ" id="hH1-ZD-Aju">
                                 <connections>
                                     <action selector="tapAction:" destination="yB3-9p-xxi" id="v31-VD-I36"/>
-                                    <segue destination="NPh-kH-M1m" kind="show" id="wEC-ZF-L3n"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="編集" id="ikd-zK-nEK">
@@ -149,6 +148,7 @@
                     <connections>
                         <outlet property="editNavigationButtonItem" destination="ikd-zK-nEK" id="T8k-7o-5cu"/>
                         <outlet property="pencilKitContainerView" destination="A0O-Ki-hD3" id="YRw-sQ-4li"/>
+                        <segue destination="NPh-kH-M1m" kind="show" identifier="toPostViewController" id="fUw-Wz-V41"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SHt-fd-crw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

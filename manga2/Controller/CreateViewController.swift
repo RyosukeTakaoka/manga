@@ -16,7 +16,7 @@ class CreateViewController: UIViewController {
     //壁画ビューを表示するためのコンテナ（表示するためのView）
     @IBOutlet var pencilKitContainerView: UIView!
     @IBOutlet var editNavigationButtonItem: UIBarButtonItem!
-   
+    
     //現在表示されている漫画のコマのインデックス
     var currentComicIndex = 0
     //4つの画面のビューの設定
@@ -27,6 +27,8 @@ class CreateViewController: UIViewController {
     let pkToolPicker = PKToolPicker()
     //ビューが編集中かどうか
     var isEditingMode = false
+    //canvasのキャプチャを保存する配列
+    var getImages: [UIImage] = []
     
     //画面の最初の処理
     override func viewDidLoad() {
@@ -112,7 +114,7 @@ class CreateViewController: UIViewController {
         title = "Drawing\(pageIndex + 1)/4"
         
     }
-   
+    
     @IBAction func toggleEditing() {
         isEditingMode.toggle()
         //編集モードに応じてボタンのタイトルを変更
@@ -121,21 +123,25 @@ class CreateViewController: UIViewController {
         disPlayCanvasView(at: pageIndex)
     }
     // segueが動作することをViewControllerに通知するメソッド
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-            // segueのIDを確認して特定のsegueのときのみ動作させる
-            if segue.identifier == "toSecondVC" {
-                // 2. 遷移先のViewControllerを取得
-                let next = segue.destination as? PostViewController
-            }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        // segueのIDを確認して特定のsegueのときのみ動作させる
+        if segue.identifier == "toPostViewController" {
+            // 2. 遷移先のViewControllerを取得
+            let next = segue.destination as? PostViewController
+            next?.canvasImages = getImages
         }
+    }
     @IBAction func tapAction(_ sender: Any) {
-        for canvasView in comicViews {
-            canvasView.GetImage()
-        }
        
+        print(comicViews.count)
+        for canvasView in comicViews {
+            
+            getImages.append(canvasView.GetImage())
+        }
+        print(getImages.count)
         // 4. 画面遷移実行
-        performSegue(withIdentifier: "toSecondVC", sender: nil)
+        performSegue(withIdentifier: "toPostViewController", sender: nil)
     }
     
 }
