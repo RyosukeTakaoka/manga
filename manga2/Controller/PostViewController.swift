@@ -89,47 +89,47 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
         let uploader = cloudinary.createUploader()
 
-        // 非同期処理を同期的に扱うために continuation を使用
         return await withCheckedContinuation { continuation in
-            var isResumed = false // `resume` が呼ばれたかどうかを追跡
+            var isResumed = false
+            let uniquePublicId = "thumbnail_\(UUID().uuidString)"
+            let params = CLDUploadRequestParams().setPublicId(uniquePublicId)
 
-            uploader.upload(data: imageData, uploadPreset: "manga_thumbnail", params: nil, progress: { progress in
+            uploader.upload(data: imageData, uploadPreset: "manga_thumbnail", params: params, progress: { progress in
                 print("アップロード進行中: \(progress.fractionCompleted * 100)%")
             }) { result, error in
-                guard !isResumed else { return } // `resume` が既に呼ばれている場合は終了
+                guard !isResumed else { return }
 
                 if let error = error {
                     print("アップロード失敗: \(error.localizedDescription)")
                     isResumed = true
-                    continuation.resume(returning: "") // 空文字列を返す（エラー時の処理）
+                    continuation.resume(returning: "")
                     return
                 }
 
                 if let result = result, let secureUrl = result.secureUrl {
                     print("アップロード成功: \(secureUrl)")
                     isResumed = true
-                    continuation.resume(returning: secureUrl) // アップロード成功時のURLを返す
+                    continuation.resume(returning: secureUrl)
                 } else {
                     print("アップロード結果が不明です")
                     isResumed = true
-                    continuation.resume(returning: "") // 結果が不明な場合の処理
+                    continuation.resume(returning: "")
                 }
             }
         }
     }
-    
-    // 投稿後に特定のタブ（例えば1番目のタブ）に遷移
+
     func savePostToFirestore(title: String, thumbnailURL: String) {
         let uuid = UUID()
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let createdAt = formatter.string(from: currentDate)
-        
+
         print(thumbnailURL)
-        
+
         let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: thumbnailURL, createdAt: createdAt)
-        
+
         let postData: [String: Any] = [
             "id": post.id,
             "title": post.title,
@@ -138,23 +138,19 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             "thumbnailPost": post.thumbnailPost,
             "createdAt": createdAt
         ]
-     
-        // Firestoreにデータを保存
+
         db.collection("posts").document(uuid.uuidString).setData(postData) { error in
             if let error = error {
                 print("Error saving post to Firestore: \(error.localizedDescription)")
-                // エラーメッセージをアラートで表示
                 DispatchQueue.main.async {
                     self.showAlert(message: "投稿の保存に失敗しました。再試行してください。")
                 }
             } else {
                 print("Post saved successfully!")
                 DispatchQueue.main.async {
-                    // Firestore保存成功後に`posts`配列を更新
                     self.posts.append(post)
                     self.collectionView.reloadData()
-                    
-                    // アラートで通知
+
                     self.completeAlert(message: "投稿できました！")
                 }
             }
