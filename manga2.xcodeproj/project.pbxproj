@@ -42,6 +42,10 @@
 		7742A5222B53B9D40032EBBE /* manga2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742A5212B53B9D40032EBBE /* manga2Tests.swift */; };
 		7742A52C2B53B9D50032EBBE /* manga2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742A52B2B53B9D50032EBBE /* manga2UITests.swift */; };
 		7742A52E2B53B9D50032EBBE /* manga2UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7742A52D2B53B9D50032EBBE /* manga2UITestsLaunchTests.swift */; };
+		777A32642D337DC200DF6348 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 777A32632D337DC200DF6348 /* CollectionViewCell.xib */; };
+		777A32652D337DC200DF6348 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777A32622D337DC200DF6348 /* CollectionViewCell.swift */; };
+		777A32682D338BFB00DF6348 /* Cloudinary in Frameworks */ = {isa = PBXBuildFile; productRef = 777A32672D338BFB00DF6348 /* Cloudinary */; };
+		777A326A2D338C4D00DF6348 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777A32692D338C4D00DF6348 /* File.swift */; };
 		778E76F32B65EEF40077C5F6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E76F22B65EEF40077C5F6 /* HomeViewController.swift */; };
 		778E76F52B65EF0E0077C5F6 /* CreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E76F42B65EF0E0077C5F6 /* CreateViewController.swift */; };
 		778E76F72B65EF1F0077C5F6 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 778E76F62B65EF1F0077C5F6 /* UserViewController.swift */; };
@@ -84,6 +88,9 @@
 		7742A5272B53B9D50032EBBE /* manga2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = manga2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7742A52B2B53B9D50032EBBE /* manga2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manga2UITests.swift; sourceTree = "<group>"; };
 		7742A52D2B53B9D50032EBBE /* manga2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manga2UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		777A32622D337DC200DF6348 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		777A32632D337DC200DF6348 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		777A32692D338C4D00DF6348 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		778E76F22B65EEF40077C5F6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		778E76F42B65EF0E0077C5F6 /* CreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewController.swift; sourceTree = "<group>"; };
 		778E76F62B65EF1F0077C5F6 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -114,6 +121,7 @@
 				7712555B2C4CE63000056602 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				771255612C4CE63000056602 /* FirebaseAuth in Frameworks */,
 				771255652C4CE63000056602 /* FirebaseCrashlytics in Frameworks */,
+				777A32682D338BFB00DF6348 /* Cloudinary in Frameworks */,
 				771255852C4CE63000056602 /* FirebaseRemoteConfigSwift in Frameworks */,
 				771255772C4CE63000056602 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				771255692C4CE63000056602 /* FirebaseDatabaseSwift in Frameworks */,
@@ -226,6 +234,7 @@
 				778E76F22B65EEF40077C5F6 /* HomeViewController.swift */,
 				77BF9A3E2C4CDD39005BF0F3 /* PostViewController.swift */,
 				778E76F62B65EF1F0077C5F6 /* UserViewController.swift */,
+				777A32692D338C4D00DF6348 /* File.swift */,
 				778E76F42B65EF0E0077C5F6 /* CreateViewController.swift */,
 			);
 			path = Controller;
@@ -238,6 +247,8 @@
 				778E76F82B6DF2690077C5F6 /* MainTableViewCell.swift */,
 				778E76F92B6DF2690077C5F6 /* MainTableViewCell.xib */,
 				7742A5152B53B9D40032EBBE /* LaunchScreen.storyboard */,
+				777A32622D337DC200DF6348 /* CollectionViewCell.swift */,
+				777A32632D337DC200DF6348 /* CollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -287,6 +298,7 @@
 				771255862C4CE63000056602 /* FirebaseStorage */,
 				771255882C4CE63000056602 /* FirebaseStorageCombine-Community */,
 				7712558A2C4CE63000056602 /* FirebaseVertexAI-Preview */,
+				777A32672D338BFB00DF6348 /* Cloudinary */,
 			);
 			productName = manga2;
 			productReference = 7742A5072B53B9D10032EBBE /* manga2.app */;
@@ -362,6 +374,7 @@
 			mainGroup = 7742A4FE2B53B9D10032EBBE;
 			packageReferences = (
 				771255532C4CE63000056602 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				777A32662D338AFF00DF6348 /* XCRemoteSwiftPackageReference "cloudinary_ios" */,
 			);
 			productRefGroup = 7742A5082B53B9D10032EBBE /* Products */;
 			projectDirPath = "";
@@ -381,6 +394,7 @@
 			files = (
 				7742A5172B53B9D40032EBBE /* LaunchScreen.storyboard in Resources */,
 				778E76FB2B6DF2690077C5F6 /* MainTableViewCell.xib in Resources */,
+				777A32642D337DC200DF6348 /* CollectionViewCell.xib in Resources */,
 				778E76FD2B8AEBCA0077C5F6 /* Assets.xcassets in Resources */,
 				7742A5122B53B9D10032EBBE /* Main.storyboard in Resources */,
 				77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */,
@@ -409,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				778E76F52B65EF0E0077C5F6 /* CreateViewController.swift in Sources */,
+				777A326A2D338C4D00DF6348 /* File.swift in Sources */,
 				77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */,
 				778E76F72B65EF1F0077C5F6 /* UserViewController.swift in Sources */,
 				77BF9A3F2C4CDD39005BF0F3 /* PostViewController.swift in Sources */,
@@ -418,6 +433,7 @@
 				778E76FA2B6DF2690077C5F6 /* MainTableViewCell.swift in Sources */,
 				778E76F32B65EEF40077C5F6 /* HomeViewController.swift in Sources */,
 				77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */,
+				777A32652D337DC200DF6348 /* CollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,6 +794,14 @@
 				minimumVersion = 10.29.0;
 			};
 		};
+		777A32662D338AFF00DF6348 /* XCRemoteSwiftPackageReference "cloudinary_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cloudinary/cloudinary_ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -920,6 +944,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 771255532C4CE63000056602 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseVertexAI-Preview";
+		};
+		777A32672D338BFB00DF6348 /* Cloudinary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 777A32662D338AFF00DF6348 /* XCRemoteSwiftPackageReference "cloudinary_ios" */;
+			productName = Cloudinary;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

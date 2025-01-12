@@ -9,7 +9,6 @@ import UIKit
 import PencilKit
 import Firebase
 
-
 //キャンバスをフリップすることができるかどうか
 class CreateViewController: UIViewController {
     
@@ -130,16 +129,18 @@ class CreateViewController: UIViewController {
             // 2. 遷移先のViewControllerを取得
             let next = segue.destination as? PostViewController
             next?.canvasImages = getImages
+            getImages.removeAll()
         }
     }
     @IBAction func tapAction(_ sender: Any) {
-       
-        print(comicViews.count)
-        for canvasView in comicViews {
-            
-            getImages.append(canvasView.GetImage())
+        
+        // もし、getImagesに入っている画像データの数が4個ある場合はスキップ
+        if getImages.isEmpty {
+            for canvasView in comicViews {
+                getImages.append(canvasView.GetImage())
+            }
         }
-        print(getImages.count)
+        
         // 4. 画面遷移実行
         performSegue(withIdentifier: "toPostViewController", sender: nil)
     }

@@ -8,13 +8,19 @@
 import UIKit
 import Firebase
 import PhotosUI
+import Cloudinary
 
-class PostViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PHPickerViewControllerDelegate {
+class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PHPickerViewControllerDelegate {
+    
     //tableViewの関連付け
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var selectImageButton: UIButton!
+    
+    
+    let config = CLDConfiguration(cloudName: "dw71feikq", secure: true)
+    var cloudinary: CLDCloudinary?
     
     let db = Firestore.firestore()
     var posts: [Post] = []
@@ -23,11 +29,22 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        cloudinary = CLDCloudinary(configuration: config)
+        
         //dataSourceをself
-        tableView.dataSource = self
+        collectionView.dataSource = self
         //delegateをself
-        tableView.delegate = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        collectionView.delegate = self
+        
+        // ③レイアウト設定をする（縦方向にスクロールするように設定&セルの間の距離を設定）
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical // スクロール方向
+        layout.minimumLineSpacing = 8 // セル間の縦の間隔
+        layout.minimumInteritemSpacing = 0 // セル間の横の間隔
+        collectionView.collectionViewLayout = layout
+        
+        collectionView.register(UINib(nibName: "CollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "customCell")
         fetchPosts()
         
         print(canvasImages)
@@ -48,10 +65,13 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
         
-        // 空でない場合、取得したtextとthumbnailを引数として渡して保存処理
-        savePostToFirestore(title: title, thumbnail: thumbnail)
+        Task {
+            let thumbnailURL = await uploadThumbnailImage(image: thumbnail)
+            // 空でない場合、取得したtextとthumbnailを引数として渡して保存処理
+            savePostToFirestore(title: title, thumbnailURL: thumbnailURL)
+        }
     }
-
+    
     // アラートを表示する関数
     func showAlert(message: String) {
         let alertController = UIAlertController(title: "入力エラー", message: message, preferredStyle: .alert)
@@ -59,16 +79,56 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
+    
+    //サムネイルを保存する関数
+    func uploadThumbnailImage(image: UIImage) async -> String {
+        guard let imageData = image.jpegData(compressionQuality: 0.8), let cloudinary = cloudinary else {
+            print("画像データの準備に失敗しました")
+            return ""
+        }
 
+        let uploader = cloudinary.createUploader()
+
+        // 非同期処理を同期的に扱うために continuation を使用
+        return await withCheckedContinuation { continuation in
+            var isResumed = false // `resume` が呼ばれたかどうかを追跡
+
+            uploader.upload(data: imageData, uploadPreset: "manga_thumbnail", params: nil, progress: { progress in
+                print("アップロード進行中: \(progress.fractionCompleted * 100)%")
+            }) { result, error in
+                guard !isResumed else { return } // `resume` が既に呼ばれている場合は終了
+
+                if let error = error {
+                    print("アップロード失敗: \(error.localizedDescription)")
+                    isResumed = true
+                    continuation.resume(returning: "") // 空文字列を返す（エラー時の処理）
+                    return
+                }
+
+                if let result = result, let secureUrl = result.secureUrl {
+                    print("アップロード成功: \(secureUrl)")
+                    isResumed = true
+                    continuation.resume(returning: secureUrl) // アップロード成功時のURLを返す
+                } else {
+                    print("アップロード結果が不明です")
+                    isResumed = true
+                    continuation.resume(returning: "") // 結果が不明な場合の処理
+                }
+            }
+        }
+    }
+    
     // 投稿後に特定のタブ（例えば1番目のタブ）に遷移
-    func savePostToFirestore(title: String, thumbnail: UIImage) {
+    func savePostToFirestore(title: String, thumbnailURL: String) {
         let uuid = UUID()
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let createdAt = formatter.string(from: currentDate)
         
-        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: "", createdAt: createdAt)
+        print(thumbnailURL)
+        
+        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: thumbnailURL, createdAt: createdAt)
         
         let postData: [String: Any] = [
             "id": post.id,
@@ -78,7 +138,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             "thumbnailPost": post.thumbnailPost,
             "createdAt": createdAt
         ]
-        
+     
         // Firestoreにデータを保存
         db.collection("posts").document(uuid.uuidString).setData(postData) { error in
             if let error = error {
@@ -92,7 +152,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 DispatchQueue.main.async {
                     // Firestore保存成功後に`posts`配列を更新
                     self.posts.append(post)
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                     
                     // アラートで通知
                     self.completeAlert(message: "投稿できました！")
@@ -100,7 +160,7 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
-
+    
     // アラートを表示する関数
     func completeAlert(message: String) {
         let alertController = UIAlertController(title: "確認", message: message, preferredStyle: .alert)
@@ -118,27 +178,23 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         present(alertController, animated: true, completion: nil)
     }
-
+    
     // 特定のTabBarで切り替えた画面に遷移
     func switchToTabBar(at index: Int) {
         if let tabBarController = self.tabBarController {
             tabBarController.selectedIndex = index
         }
     }
-
-
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //表示する数をmesseageArrayの個数にする
         return canvasImages.count
-        
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //名前をCellにする
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        var content = cell.defaultContentConfiguration()
-        cell.imageView?.image = canvasImages[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
+        cell.thumbnailImageView.image = canvasImages[indexPath.row]
         //cellを返却
         return cell
     }
@@ -162,20 +218,20 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let postImages = data["postImages"] as? [String] ?? []  // 空の配列を設定
                 let thumbnailPost = data["thumbnailPost"] as? String ?? "No Date"  // デフォルト値を設定
                 let createdAt = data["createdAt"] as? String ?? "No Date"  // createdAtを追加（デフォルト値）
-
+                
                 // 必要なデータがない場合でもデフォルト値を使ってPost型を生成
                 return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt)
             } ?? []  // compactMapがnilを返す場合は空の配列を返す
             
             // UIを更新
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self.collectionView.reloadData()
             }
             
             print("Posts successfully fetched and stored: \(self.posts)")
         }
     }
-
+    
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         //選択した画像の情報を取得
@@ -208,19 +264,11 @@ class PostViewController: UIViewController, UITableViewDelegate, UITableViewData
         present(picker, animated: true)
     }
     
-    @IBAction func save() {
-        //画面のスクリーンショットを撮影
-        UIGraphicsBeginImageContextWithOptions(thumbnailImageView.frame.size, false, 0.0)
-        let context = UIGraphicsGetCurrentContext()!
-        context.translateBy(x: -thumbnailImageView.frame.origin.x, y: -thumbnailImageView.frame.origin.y)
-        view.layer.render(in: context)
-        let screenshot = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        //フォトライブラリに保存
-        UIImageWriteToSavedPhotosAlbum(screenshot!, nil, nil, nil)
+    // ④ここでセルのサイズを調節する（インスタっぽく1:1にするならこんな感じ！）
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width // 横幅いっぱいにする
+        return CGSize(width: width, height: width) // 高さも横幅と同じで1:1の正方形
     }
-    
     
     
 }
