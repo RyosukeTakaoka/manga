@@ -67,8 +67,19 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         Task {
             let thumbnailURL = await uploadThumbnailImage(image: thumbnail)
+            
+            // canvasImages内のすべての画像URLをアップロード
+            var canvasImageURLs: [String] = []
+            for image in canvasImages {
+                let imageURL = await uploadThumbnailImage(image: image)  // ここで画像をアップロード
+                if !imageURL.isEmpty {
+                    canvasImageURLs.append(imageURL)  // 成功したURLを追加
+                    print("成功したタタタアップロードが成功しました")
+                }
+            }
+            
             // 空でない場合、取得したtextとthumbnailを引数として渡して保存処理
-            savePostToFirestore(title: title, thumbnailURL: thumbnailURL)
+            savePostToFirestore(title: title, thumbnailURL: thumbnailURL, postImages: canvasImageURLs)
         }
     }
     
@@ -86,26 +97,26 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             print("画像データの準備に失敗しました")
             return ""
         }
-
+        
         let uploader = cloudinary.createUploader()
-
+        
         return await withCheckedContinuation { continuation in
             var isResumed = false
             let uniquePublicId = "thumbnail_\(UUID().uuidString)"
             let params = CLDUploadRequestParams().setPublicId(uniquePublicId)
-
+            
             uploader.upload(data: imageData, uploadPreset: "manga_thumbnail", params: params, progress: { progress in
                 print("アップロード進行中: \(progress.fractionCompleted * 100)%")
             }) { result, error in
                 guard !isResumed else { return }
-
+                
                 if let error = error {
                     print("アップロード失敗: \(error.localizedDescription)")
                     isResumed = true
                     continuation.resume(returning: "")
                     return
                 }
-
+                
                 if let result = result, let secureUrl = result.secureUrl {
                     print("アップロード成功: \(secureUrl)")
                     isResumed = true
@@ -118,18 +129,18 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
     }
-
-    func savePostToFirestore(title: String, thumbnailURL: String) {
+    
+    func savePostToFirestore(title: String, thumbnailURL: String, postImages: [String]) {
         let uuid = UUID()
         let currentDate = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let createdAt = formatter.string(from: currentDate)
-
+        
         print(thumbnailURL)
-
-        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: [], thumbnailPost: thumbnailURL, createdAt: createdAt)
-
+        
+        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: postImages, thumbnailPost: thumbnailURL, createdAt: createdAt)
+        
         let postData: [String: Any] = [
             "id": post.id,
             "title": post.title,
@@ -138,7 +149,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             "thumbnailPost": post.thumbnailPost,
             "createdAt": createdAt
         ]
-
+        
         db.collection("posts").document(uuid.uuidString).setData(postData) { error in
             if let error = error {
                 print("Error saving post to Firestore: \(error.localizedDescription)")
@@ -150,7 +161,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 DispatchQueue.main.async {
                     self.posts.append(post)
                     self.collectionView.reloadData()
-
+                    
                     self.completeAlert(message: "投稿できました！")
                 }
             }

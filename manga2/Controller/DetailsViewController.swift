@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
