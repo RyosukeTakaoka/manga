@@ -17,16 +17,15 @@
                 <rect key="frame" x="0.0" y="0.0" width="430" height="430"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hqp-Bt-bVD">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hqp-Bt-bVD">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="410"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ygc-Fy-8KW">
                                 <rect key="frame" x="0.0" y="0.0" width="430" height="324"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pCB-Ld-9Eu">
-                                <rect key="frame" x="18" y="341" width="394" height="59"/>
+                                <rect key="frame" x="0.0" y="324" width="430" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
@@ -38,6 +37,12 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="Hqp-Bt-bVD" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="0do-HA-VmO"/>
+                <constraint firstItem="Hqp-Bt-bVD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3GE-wF-h6C"/>
+                <constraint firstAttribute="bottom" secondItem="Hqp-Bt-bVD" secondAttribute="bottom" constant="20" id="UXR-a7-Hbc"/>
+                <constraint firstItem="Hqp-Bt-bVD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="prW-XV-UnU"/>
+            </constraints>
             <size key="customSize" width="430" height="430"/>
             <connections>
                 <outlet property="thumbnailImageView" destination="Ygc-Fy-8KW" id="E4l-94-AKs"/>

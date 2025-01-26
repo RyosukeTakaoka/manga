@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Details View Controller-->
         <scene sceneID="iMI-jl-TKt">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="bZ8-Fm-GPq" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="bZ8-Fm-GPq" customClass="DetailsViewController" customModule="manga2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ATW-nb-zVP">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,6 +23,27 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="heart.circle" catalog="system"/>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zeC-3L-7CR">
+                                <rect key="frame" x="76" y="133" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="kAj-qg-5AH">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="LEr-P9-fNO">
+                                        <rect key="frame" x="56" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="pz6-oM-MDa">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QA9-BZ-ek1"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -155,10 +176,10 @@
             </objects>
             <point key="canvasLocation" x="2747.3282442748091" y="709.85915492957747"/>
         </scene>
-        <!--新規投稿-->
+        <!--PostViewController-->
         <scene sceneID="z9k-gI-reO">
             <objects>
-                <viewController storyboardIdentifier="PostView" title="新規投稿" modalPresentationStyle="fullScreen" id="NPh-kH-M1m" customClass="PostViewController" customModule="manga2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PostView" title="PostViewController" modalPresentationStyle="fullScreen" id="NPh-kH-M1m" customClass="PostViewController" customModule="manga2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VkQ-ja-Njv">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

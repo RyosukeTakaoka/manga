@@ -8,7 +8,7 @@
 import UIKit
 import Firebase
 
-class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource {
+class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet var homeCollectionView: UICollectionView!
     
@@ -16,22 +16,20 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
     var posts: [Post] = []
     private let refreshControl = UIRefreshControl()
     
+    let spacer: CGFloat = 8
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
-        let spacer: CGFloat = 8
         
-        // collectionViewの表示設定
         let layout = UICollectionViewFlowLayout()
-        // 縦スクロールに設定
-        layout.scrollDirection = .vertical
-        // セルの大きさ設定
-        layout.itemSize = CGSize(width: view.frame.width / 2 - spacer * 2, height:
-                                    view.frame.width / 2 - spacer * 2)
-        // 余白の設定
-        layout.sectionInset = UIEdgeInsets(top: spacer, left: spacer, bottom: spacer, right: spacer)
+        layout.scrollDirection = .vertical // スクロール方向
+        layout.minimumLineSpacing = spacer // セル間の縦の間隔
+        layout.minimumInteritemSpacing = spacer // セル間の横の間隔
+        layout.sectionInset = UIEdgeInsets(top: spacer, left: spacer * 2, bottom: spacer, right: spacer * 2)
+        
         // レイアウトをcollectionViewに適応させる
         homeCollectionView.collectionViewLayout = layout
         //FIreBaseからデータを取得
@@ -58,7 +56,12 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
         //名前をCellにする
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         cell.titleLabel.text = posts[indexPath.row].title
+        cell.titleLabel.frame.size = CGSize(width: collectionView.frame.width / 2 - spacer, height: collectionView.frame.width / 4)
+        
         cell.thumbnailImageView.image = UIImage(url: posts[indexPath.row].thumbnailPost)
+        cell.thumbnailImageView.frame.size = CGSize(width: collectionView.frame.width / 2 - spacer, height: collectionView.frame.width / 2 - spacer)
+        cell.thumbnailImageView.contentMode = UIView.ContentMode.scaleAspectFill
+        
         //cellを返却
         return cell
     }
@@ -66,6 +69,8 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
     // CollectionViewのセルをタップした時
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
+        
+        
         
         // Identifierを指定して画面遷移する
         performSegue(withIdentifier: "toSecondViewController", sender: nil)
@@ -89,7 +94,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 let postImages = data["postImages"] as? [String] ?? []  // 空の配列を設定
                 let thumbnailPost = data["thumbnailPost"] as? String ?? "No Thumbnail"  // デフォルト値を設定
                 let createdAt = data["createdAt"] as? String ?? "No Date"  // createdAtを追加（デフォルト値）
-
+                
                 // 必要なデータがない場合でもデフォルト値を使ってPost型を生成
                 return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt)
             } ?? []  // compactMapがnilを返す場合は空の配列を返す
@@ -105,7 +110,7 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
                 }
                 return date1 > date2  // 新しい日付が前に来るように並べ替え
             }
-
+            
             // UIを更新
             DispatchQueue.main.async {
                 self.homeCollectionView.reloadData()
@@ -114,6 +119,10 @@ class HomeViewController: UIViewController,UICollectionViewDelegate, UICollectio
             print("Posts successfully fetched and stored: \(self.posts)")
         }
     }
-
+    // ④ここでセルのサイズを調節する（インスタっぽく1:1にするならこんな感じ！）
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / 2 - spacer * 3 // 横幅いっぱいにする
+        return CGSize(width: width, height: width * 3) // 高さも横幅と同じで1:1の正方形
+    }
 }
 

@@ -54,6 +54,7 @@
 		778E76FD2B8AEBCA0077C5F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 778E76FC2B8AEBC90077C5F6 /* Assets.xcassets */; };
 		77BF9A392C4CBFD6005BF0F3 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF9A382C4CBFD6005BF0F3 /* UIView.swift */; };
 		77BF9A3F2C4CDD39005BF0F3 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF9A3E2C4CDD39005BF0F3 /* PostViewController.swift */; };
+		77C54B6F2D459F0000C1FABE /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C54B6E2D459F0000C1FABE /* DetailsViewController.swift */; };
 		77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24B2CF2C29800FAEF9F /* Post.swift */; };
 		77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */; };
 		77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */; };
@@ -99,6 +100,7 @@
 		778E76FC2B8AEBC90077C5F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		77BF9A382C4CBFD6005BF0F3 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		77BF9A3E2C4CDD39005BF0F3 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		77C54B6E2D459F0000C1FABE /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		77FEC24B2CF2C29800FAEF9F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				778E76F62B65EF1F0077C5F6 /* UserViewController.swift */,
 				777A32692D338C4D00DF6348 /* File.swift */,
 				778E76F42B65EF0E0077C5F6 /* CreateViewController.swift */,
+				77C54B6E2D459F0000C1FABE /* DetailsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				778E76FA2B6DF2690077C5F6 /* MainTableViewCell.swift in Sources */,
 				778E76F32B65EEF40077C5F6 /* HomeViewController.swift in Sources */,
 				77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */,
+				77C54B6F2D459F0000C1FABE /* DetailsViewController.swift in Sources */,
 				777A32652D337DC200DF6348 /* CollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
