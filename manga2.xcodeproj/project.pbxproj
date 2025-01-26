@@ -55,6 +55,9 @@
 		77BF9A392C4CBFD6005BF0F3 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF9A382C4CBFD6005BF0F3 /* UIView.swift */; };
 		77BF9A3F2C4CDD39005BF0F3 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF9A3E2C4CDD39005BF0F3 /* PostViewController.swift */; };
 		77C54B6F2D459F0000C1FABE /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C54B6E2D459F0000C1FABE /* DetailsViewController.swift */; };
+		77C54B932D45F9FB00C1FABE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C54B922D45F9FB00C1FABE /* HomeView.swift */; };
+		77C54B982D46063000C1FABE /* DetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C54B962D46063000C1FABE /* DetailsCollectionViewCell.swift */; };
+		77C54B992D46063000C1FABE /* DetailsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77C54B972D46063000C1FABE /* DetailsCollectionViewCell.xib */; };
 		77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24B2CF2C29800FAEF9F /* Post.swift */; };
 		77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */; };
 		77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */; };
@@ -101,6 +104,9 @@
 		77BF9A382C4CBFD6005BF0F3 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		77BF9A3E2C4CDD39005BF0F3 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		77C54B6E2D459F0000C1FABE /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		77C54B922D45F9FB00C1FABE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		77C54B962D46063000C1FABE /* DetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCollectionViewCell.swift; sourceTree = "<group>"; };
+		77C54B972D46063000C1FABE /* DetailsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsCollectionViewCell.xib; sourceTree = "<group>"; };
 		77FEC24B2CF2C29800FAEF9F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -246,9 +252,12 @@
 		77FEC2522CF3081400FAEF9F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				77C54B962D46063000C1FABE /* DetailsCollectionViewCell.swift */,
+				77C54B972D46063000C1FABE /* DetailsCollectionViewCell.xib */,
 				7742A5102B53B9D10032EBBE /* Main.storyboard */,
 				778E76F82B6DF2690077C5F6 /* MainTableViewCell.swift */,
 				778E76F92B6DF2690077C5F6 /* MainTableViewCell.xib */,
+				77C54B922D45F9FB00C1FABE /* HomeView.swift */,
 				7742A5152B53B9D40032EBBE /* LaunchScreen.storyboard */,
 				777A32622D337DC200DF6348 /* CollectionViewCell.swift */,
 				777A32632D337DC200DF6348 /* CollectionViewCell.xib */,
@@ -401,6 +410,7 @@
 				778E76FD2B8AEBCA0077C5F6 /* Assets.xcassets in Resources */,
 				7742A5122B53B9D10032EBBE /* Main.storyboard in Resources */,
 				77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */,
+				77C54B992D46063000C1FABE /* DetailsCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +436,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				778E76F52B65EF0E0077C5F6 /* CreateViewController.swift in Sources */,
+				77C54B932D45F9FB00C1FABE /* HomeView.swift in Sources */,
+				77C54B982D46063000C1FABE /* DetailsCollectionViewCell.swift in Sources */,
 				777A326A2D338C4D00DF6348 /* File.swift in Sources */,
 				77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */,
 				778E76F72B65EF1F0077C5F6 /* UserViewController.swift in Sources */,

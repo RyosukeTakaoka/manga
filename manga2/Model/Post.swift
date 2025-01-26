@@ -1,4 +1,4 @@
-struct Post: Codable {
+struct Post: Codable, Identifiable {
     let id: String
     let title: String
     let userId: String

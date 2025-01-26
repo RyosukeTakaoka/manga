@@ -6,25 +6,49 @@
 //
 
 import UIKit
+import Firebase
 
-//class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-//    
-//    @IBOutlet weak var collectionView: UICollectionView!
-//    
-//    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        
-//    }
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return 0
-//    }
-//    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        return
-//    }
-//    
-//    
-//    
-//}
+class DetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    let db = Firestore.firestore()
+    var post: Post!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        // ③レイアウト設定をする（縦方向にスクロールするように設定&セルの間の距離を設定）
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal // スクロール方向
+        layout.minimumLineSpacing = 0 // セル間の縦の間隔
+        layout.minimumInteritemSpacing = 0 // セル間の横の間隔
+        collectionView.collectionViewLayout = layout
+        
+        collectionView.register(UINib(nibName: "DetailsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "customCell")
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return post.postImages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        //名前をCellにする
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! DetailsCollectionViewCell
+        cell.postImageView.image = UIImage(url: post.postImages[indexPath.row])
+        //cellを返却
+        return cell
+    }
+    
+    // ④ここでセルのサイズを調節する（インスタっぽく1:1にするならこんな感じ！）
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width // 横幅いっぱいにする
+        let hight = collectionView.frame.height//縦幅いっぱいにする
+        return CGSize(width: width, height: hight) // 縦幅いっぱいにする
+    }
+    
+}
