@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import PhotosUI
 import Cloudinary
+import PKHUD
 
 class PostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PHPickerViewControllerDelegate {
     
@@ -23,12 +24,15 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var cloudinary: CLDCloudinary?
     
     let db = Firestore.firestore()
+    let postManager = PostManager.shared
     var posts: [Post] = []
     
     var canvasImages: [UIImage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setDismissKeybord()
         
         cloudinary = CLDCloudinary(configuration: config)
         
@@ -51,6 +55,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     @IBAction func postButtonTapped(_ sender: UIButton) {
+        
         // titleが空でないことを確認
         guard let title = titleTextField.text, !title.isEmpty else {
             // テキストが空の場合の処理
@@ -66,6 +71,8 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         
         Task {
+            HUD.show(.labeledProgress(title: "", subtitle: "アップロード中です"))
+
             let thumbnailURL = await uploadThumbnailImage(image: thumbnail)
             
             // canvasImages内のすべての画像URLをアップロード
@@ -80,6 +87,8 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
             // 空でない場合、取得したtextとthumbnailを引数として渡して保存処理
             savePostToFirestore(title: title, thumbnailURL: thumbnailURL, postImages: canvasImageURLs)
+            HUD.hide()
+            postManager.isPosted = true
         }
     }
     

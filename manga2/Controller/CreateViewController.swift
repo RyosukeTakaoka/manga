@@ -16,10 +16,12 @@ class CreateViewController: UIViewController {
     @IBOutlet var pencilKitContainerView: UIView!
     @IBOutlet var editNavigationButtonItem: UIBarButtonItem!
     
+    let postManager = PostManager.shared
+
     //現在表示されている漫画のコマのインデックス
     var currentComicIndex = 0
     //4つの画面のビューの設定
-    let comicViews = [PKCanvasView(), PKCanvasView(), PKCanvasView(), PKCanvasView()]
+    var comicViews = [PKCanvasView(), PKCanvasView(), PKCanvasView(), PKCanvasView()]
     //現在表示されいているページの番号
     var pageIndex: Int = 0
     //ペンや消しゴムを選ぶツール
@@ -32,6 +34,7 @@ class CreateViewController: UIViewController {
     //画面の最初の処理
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         //壁画ビューの設定
         setupCanvasView()
         //ナビゲーションバーの設定
@@ -39,6 +42,23 @@ class CreateViewController: UIViewController {
         //指定されたページの壁画ビューを表示する関数
         disPlayCanvasView(at: pageIndex)
     }
+    //画面が表示される度に投稿画面を白紙にする処理
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if postManager.isPosted == true{
+            resetCanvasView()
+            postManager.isPosted = false
+        }
+    }
+    
+    func resetCanvasView() {
+        for canvasView in comicViews {
+            canvasView.drawing = PKDrawing()
+        }
+        pageIndex = 0
+    }
+    
     //描画ビューを設定する関数
     func setupCanvasView() {
         // 各コマのCanvasViewの設定

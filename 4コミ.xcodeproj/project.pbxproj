@@ -58,6 +58,9 @@
 		77C54B932D45F9FB00C1FABE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C54B922D45F9FB00C1FABE /* HomeView.swift */; };
 		77C54B982D46063000C1FABE /* DetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C54B962D46063000C1FABE /* DetailsCollectionViewCell.swift */; };
 		77C54B992D46063000C1FABE /* DetailsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 77C54B972D46063000C1FABE /* DetailsCollectionViewCell.xib */; };
+		77C709302D58418F00B788DA /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 77C7092F2D58418F00B788DA /* PKHUD */; };
+		77C709322D5845E400B788DA /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C709312D5845E400B788DA /* PostManager.swift */; };
+		77C709342D584D1000B788DA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C709332D584D1000B788DA /* UIViewController.swift */; };
 		77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24B2CF2C29800FAEF9F /* Post.swift */; };
 		77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */; };
 		77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */; };
@@ -107,6 +110,8 @@
 		77C54B922D45F9FB00C1FABE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		77C54B962D46063000C1FABE /* DetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCollectionViewCell.swift; sourceTree = "<group>"; };
 		77C54B972D46063000C1FABE /* DetailsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsCollectionViewCell.xib; sourceTree = "<group>"; };
+		77C709312D5845E400B788DA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
+		77C709332D584D1000B788DA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		77FEC24B2CF2C29800FAEF9F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -120,6 +125,7 @@
 				771255672C4CE63000056602 /* FirebaseDatabase in Frameworks */,
 				771255752C4CE63000056602 /* FirebaseFunctionsCombine-Community in Frameworks */,
 				7712556D2C4CE63000056602 /* FirebaseFirestore in Frameworks */,
+				77C709302D58418F00B788DA /* PKHUD in Frameworks */,
 				771255592C4CE63000056602 /* FirebaseAnalyticsSwift in Frameworks */,
 				771255552C4CE63000056602 /* FirebaseAnalytics in Frameworks */,
 				771255572C4CE63000056602 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
@@ -224,6 +230,7 @@
 			children = (
 				77BF9A382C4CBFD6005BF0F3 /* UIView.swift */,
 				77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */,
+				77C709332D584D1000B788DA /* UIViewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -245,6 +252,7 @@
 				777A32692D338C4D00DF6348 /* File.swift */,
 				778E76F42B65EF0E0077C5F6 /* CreateViewController.swift */,
 				77C54B6E2D459F0000C1FABE /* DetailsViewController.swift */,
+				77C709312D5845E400B788DA /* PostManager.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -311,6 +319,7 @@
 				771255882C4CE63000056602 /* FirebaseStorageCombine-Community */,
 				7712558A2C4CE63000056602 /* FirebaseVertexAI-Preview */,
 				777A32672D338BFB00DF6348 /* Cloudinary */,
+				77C7092F2D58418F00B788DA /* PKHUD */,
 			);
 			productName = manga2;
 			productReference = 7742A5072B53B9D10032EBBE /* manga2.app */;
@@ -375,7 +384,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 7742A5022B53B9D10032EBBE /* Build configuration list for PBXProject "manga2" */;
+			buildConfigurationList = 7742A5022B53B9D10032EBBE /* Build configuration list for PBXProject "4コミ" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -387,6 +396,7 @@
 			packageReferences = (
 				771255532C4CE63000056602 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				777A32662D338AFF00DF6348 /* XCRemoteSwiftPackageReference "cloudinary_ios" */,
+				77C7092E2D58418E00B788DA /* XCRemoteSwiftPackageReference "PKHUD" */,
 			);
 			productRefGroup = 7742A5082B53B9D10032EBBE /* Products */;
 			projectDirPath = "";
@@ -443,11 +453,13 @@
 				778E76F72B65EF1F0077C5F6 /* UserViewController.swift in Sources */,
 				77BF9A3F2C4CDD39005BF0F3 /* PostViewController.swift in Sources */,
 				77BF9A392C4CBFD6005BF0F3 /* UIView.swift in Sources */,
+				77C709342D584D1000B788DA /* UIViewController.swift in Sources */,
 				7742A50B2B53B9D10032EBBE /* AppDelegate.swift in Sources */,
 				7742A50D2B53B9D10032EBBE /* SceneDelegate.swift in Sources */,
 				778E76FA2B6DF2690077C5F6 /* MainTableViewCell.swift in Sources */,
 				778E76F32B65EEF40077C5F6 /* HomeViewController.swift in Sources */,
 				77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */,
+				77C709322D5845E400B788DA /* PostManager.swift in Sources */,
 				77C54B6F2D459F0000C1FABE /* DetailsViewController.swift in Sources */,
 				777A32652D337DC200DF6348 /* CollectionViewCell.swift in Sources */,
 			);
@@ -763,7 +775,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7742A5022B53B9D10032EBBE /* Build configuration list for PBXProject "manga2" */ = {
+		7742A5022B53B9D10032EBBE /* Build configuration list for PBXProject "4コミ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7742A52F2B53B9D50032EBBE /* Debug */,
@@ -816,6 +828,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.1.0;
+			};
+		};
+		77C7092E2D58418E00B788DA /* XCRemoteSwiftPackageReference "PKHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pkluz/PKHUD";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -965,6 +985,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 777A32662D338AFF00DF6348 /* XCRemoteSwiftPackageReference "cloudinary_ios" */;
 			productName = Cloudinary;
+		};
+		77C7092F2D58418F00B788DA /* PKHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77C7092E2D58418E00B788DA /* XCRemoteSwiftPackageReference "PKHUD" */;
+			productName = PKHUD;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

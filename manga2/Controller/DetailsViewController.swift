@@ -21,6 +21,8 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        self.title = post.title
+        
         // ③レイアウト設定をする（縦方向にスクロールするように設定&セルの間の距離を設定）
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal // スクロール方向
