@@ -647,6 +647,8 @@
 				DEVELOPMENT_TEAM = 5B2NQ74986;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = manga2/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "4コミ";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "加工した画像を保存します";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
@@ -677,6 +679,8 @@
 				DEVELOPMENT_TEAM = 5B2NQ74986;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = manga2/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "4コミ";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "加工した画像を保存します";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
