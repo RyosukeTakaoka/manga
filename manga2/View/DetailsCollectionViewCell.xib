@@ -16,13 +16,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="483" height="404"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V5A-Uz-SMg">
-                        <rect key="frame" x="0.0" y="0.0" width="483" height="384"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V5A-Uz-SMg">
+                        <rect key="frame" x="0.0" y="0.0" width="483" height="404"/>
                     </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="V5A-Uz-SMg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="mmn-v4-KDf"/>
+                <constraint firstItem="V5A-Uz-SMg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="nV6-q8-aoN"/>
+                <constraint firstAttribute="trailing" secondItem="V5A-Uz-SMg" secondAttribute="trailing" id="pBi-u4-ePi"/>
+                <constraint firstAttribute="bottom" secondItem="V5A-Uz-SMg" secondAttribute="bottom" id="wdu-fq-tVo"/>
+            </constraints>
             <size key="customSize" width="483" height="404"/>
             <connections>
                 <outlet property="postImageView" destination="V5A-Uz-SMg" id="Uot-eO-iZW"/>

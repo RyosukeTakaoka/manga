@@ -61,6 +61,8 @@
 		77C709302D58418F00B788DA /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 77C7092F2D58418F00B788DA /* PKHUD */; };
 		77C709322D5845E400B788DA /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C709312D5845E400B788DA /* PostManager.swift */; };
 		77C709342D584D1000B788DA /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C709332D584D1000B788DA /* UIViewController.swift */; };
+		77C709372D586A5500B788DA /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C709362D586A5500B788DA /* Date.swift */; };
+		77C709392D586D8A00B788DA /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C709382D586D8A00B788DA /* String.swift */; };
 		77FEC24C2CF2C29800FAEF9F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24B2CF2C29800FAEF9F /* Post.swift */; };
 		77FEC24E2CF2D5F000FAEF9F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */; };
 		77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */; };
@@ -112,6 +114,8 @@
 		77C54B972D46063000C1FABE /* DetailsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsCollectionViewCell.xib; sourceTree = "<group>"; };
 		77C709312D5845E400B788DA /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		77C709332D584D1000B788DA /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		77C709362D586A5500B788DA /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		77C709382D586D8A00B788DA /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		77FEC24B2CF2C29800FAEF9F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		77FEC24D2CF2D5F000FAEF9F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -231,6 +235,8 @@
 				77BF9A382C4CBFD6005BF0F3 /* UIView.swift */,
 				77FEC24F2CF2EF4000FAEF9F /* UIImage.swift */,
 				77C709332D584D1000B788DA /* UIViewController.swift */,
+				77C709362D586A5500B788DA /* Date.swift */,
+				77C709382D586D8A00B788DA /* String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -445,6 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77C709392D586D8A00B788DA /* String.swift in Sources */,
 				778E76F52B65EF0E0077C5F6 /* CreateViewController.swift in Sources */,
 				77C54B932D45F9FB00C1FABE /* HomeView.swift in Sources */,
 				77C54B982D46063000C1FABE /* DetailsCollectionViewCell.swift in Sources */,
@@ -452,6 +459,7 @@
 				77FEC2502CF2EF4000FAEF9F /* UIImage.swift in Sources */,
 				778E76F72B65EF1F0077C5F6 /* UserViewController.swift in Sources */,
 				77BF9A3F2C4CDD39005BF0F3 /* PostViewController.swift in Sources */,
+				77C709372D586A5500B788DA /* Date.swift in Sources */,
 				77BF9A392C4CBFD6005BF0F3 /* UIView.swift in Sources */,
 				77C709342D584D1000B788DA /* UIViewController.swift in Sources */,
 				7742A50B2B53B9D10032EBBE /* AppDelegate.swift in Sources */,

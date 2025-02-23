@@ -42,6 +42,23 @@ class DetailsViewController: UIViewController, UICollectionViewDelegate, UIColle
         //名前をCellにする
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! DetailsCollectionViewCell
         cell.postImageView.image = UIImage(url: post.postImages[indexPath.row])
+        let borderColor = UIColor.black
+        let borderWidth = 10.0
+        // 左ボーダー
+        let leftBorder = CALayer()
+        leftBorder.name = "leftBorder"
+        leftBorder.backgroundColor = borderColor.cgColor
+        leftBorder.frame = CGRect(x: 0, y: 0, width: borderWidth, height: cell.frame.height)
+        cell.layer.addSublayer(leftBorder)
+        
+        // 右ボーダー
+        let rightBorder = CALayer()
+        rightBorder.name = "rightBorder"
+        rightBorder.backgroundColor = borderColor.cgColor
+        rightBorder.frame = CGRect(x: cell.frame.width - borderWidth, y: 0, width: borderWidth, height: cell.frame.height)
+        cell.layer.addSublayer(rightBorder)
+        
+        
         //cellを返却
         return cell
     }

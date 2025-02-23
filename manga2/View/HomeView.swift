@@ -19,28 +19,55 @@ struct HomeView: View {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: spacer) {
                 ForEach(posts) { post in
                     VStack {
-                        // サムネイル画像
-                        AsyncImage(url: URL(string: post.thumbnailPost)) { image in
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: UIScreen.main.bounds.width / 2 - spacer * 3,
-                                       height: UIScreen.main.bounds.width / 2 - spacer * 3)
-                                .clipped()
-                        } placeholder: {
-                            Color.gray
-                                .frame(width: UIScreen.main.bounds.width / 2 - spacer * 3,
-                                       height: UIScreen.main.bounds.width / 2 - spacer * 3)
+                        ZStack(alignment: .bottomTrailing) {
+                            let imageSize = UIScreen.main.bounds.width / 2 - spacer * 3
+                            
+                            // メインのサムネイル画像
+                            AsyncImage(url: URL(string: post.thumbnailPost)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: imageSize, height: imageSize)
+                                    .clipped()
+                            } placeholder: {
+                                Color.gray
+                                    .frame(width: imageSize, height: imageSize)
+                            }
+                            
+                            // 🔹 右下に重ねる小さな円形画像
+                            AsyncImage(url: URL(string: post.thumbnailPost)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: imageSize * 0.2, height: imageSize * 0.2) // サムネイルの10%サイズ
+                                    .clipShape(Circle()) // 🔹 円形にする
+                                    .overlay(Circle().stroke(Color.white, lineWidth: 2)) // 🔹 白枠を追加
+                                    .shadow(radius: 2) // 🔹 影をつける
+                            } placeholder: {
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: imageSize * 0.3, height: imageSize * 0.3)
+                                    .overlay(Circle().stroke(Color.gray, lineWidth: 1)) // 🔹 プレースホルダー用の枠
+                            }
+                            .offset(x: -spacer, y: -spacer) // 🔹 少し内側に配置
                         }
-
+                        
+                        
                         // タイトル
                         Text(post.title)
                             .font(.headline)
+                            .foregroundColor(.black)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .lineLimit(1) // 1行に制限
                             .truncationMode(.tail) // 末尾に "..." を表示
-                            .padding(.top, 4)
-
+                            .padding(4)
+                        
+                        Text(post.createdAt.timeAgo())
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
+                        
+                        
                     }
                     .background(Color.white)
                     .cornerRadius(8)
@@ -59,7 +86,7 @@ struct HomeView: View {
             fetchPosts()
         }
     }
-
+    
     private func fetchPosts() {
         isLoading = true
         db.collection("posts").getDocuments { (querySnapshot, error) in
