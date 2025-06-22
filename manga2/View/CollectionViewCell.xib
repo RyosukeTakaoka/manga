@@ -25,12 +25,21 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pCB-Ld-9Eu">
-                                <rect key="frame" x="0.0" y="324" width="430" height="48"/>
+                                <rect key="frame" x="0.0" y="324" width="360" height="48"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZNM-Zo-ed1">
+                                <rect key="frame" x="368" y="324" width="62" height="48"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="likeButtonTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="bOV-GL-W7o"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -45,6 +54,7 @@
             </constraints>
             <size key="customSize" width="430" height="430"/>
             <connections>
+                <outlet property="heartButton" destination="ZNM-Zo-ed1" id="ryc-bM-Co7"/>
                 <outlet property="thumbnailImageView" destination="Ygc-Fy-8KW" id="E4l-94-AKs"/>
                 <outlet property="titleLabel" destination="pCB-Ld-9Eu" id="VxK-RN-ieB"/>
             </connections>

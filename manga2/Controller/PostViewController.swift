@@ -148,7 +148,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         print(thumbnailURL)
         
-        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: postImages, thumbnailPost: thumbnailURL, createdAt: createdAt)
+        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: postImages, thumbnailPost: thumbnailURL, createdAt: createdAt, isLiked: false)
         
         let postData: [String: Any] = [
             "id": post.id,
@@ -236,7 +236,7 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 let createdAt = data["createdAt"] as? String ?? "No Date"  // createdAtを追加（デフォルト値）
                 
                 // 必要なデータがない場合でもデフォルト値を使ってPost型を生成
-                return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt)
+                return Post(id: id, title: title, userId: userId, postImages: postImages, thumbnailPost: thumbnailPost, createdAt: createdAt, isLiked: false)
             } ?? []  // compactMapがnilを返す場合は空の配列を返す
             
             // UIを更新

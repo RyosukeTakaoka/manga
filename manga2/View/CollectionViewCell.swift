@@ -1,20 +1,30 @@
-//
-//  CollectionViewCell.swift
-//  manga2
-//
-//  Created by Ryosuke Takaoka on 2025/01/12.
-//
-
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var thumbnailImageView: UIImageView!
+    @IBOutlet var heartButton: UIButton!
+    
+    var isLiked: Bool = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        updateLikeButton()
     }
 
+    @IBAction func likeButtonTapped(_ sender: UIButton) {
+        isLiked.toggle()
+        updateLikeButton()
+    }
+
+    func updateLikeButton() {
+        if isLiked {
+            heartButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            heartButton.tintColor = .red
+        } else {
+            heartButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            heartButton.tintColor = .gray
+        }
+    }
 }

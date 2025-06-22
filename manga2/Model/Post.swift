@@ -5,4 +5,5 @@ struct Post: Codable, Identifiable {
     let postImages: [String]
     let thumbnailPost: String
     let createdAt: String
+    var isLiked: Bool
 }
