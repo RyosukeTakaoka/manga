@@ -13,6 +13,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.text = ""
+        setDismissKeybord()
     }
     
     @IBAction func signUpButtonTapped(_ sender: UIButton) {
@@ -22,13 +23,13 @@ class SignUpViewController: UIViewController {
             errorLabel.text = "すべての項目を入力してください。"
             return
         }
-
+        
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
             
             if let error = error as NSError? {
                 self.errorLabel.text =  self.errorMessage(forErrorCode: AuthErrorCode.Code(rawValue: error.code))
-
+                
                 return
             }
             
@@ -86,6 +87,8 @@ class SignUpViewController: UIViewController {
             return "登録に失敗しました。しばらくしてから再度お試しください。"
         }
     }
-
 }
+
+
+
 
