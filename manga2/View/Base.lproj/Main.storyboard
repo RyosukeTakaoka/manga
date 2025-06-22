@@ -281,6 +281,7 @@
                         <viewLayoutGuide key="safeArea" id="qpt-CF-wpj"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Kvz-67-dzw"/>
                     <connections>
                         <segue destination="FMu-i3-CzD" kind="presentation" identifier="toBarController" modalPresentationStyle="fullScreen" id="jGW-B3-VgN"/>
                     </connections>
@@ -352,11 +353,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" textContentType="password"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OFp-6l-1rb">
+                                <rect key="frame" x="25" y="59" width="75" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="backButton:" destination="JYo-Lf-hoC" eventType="touchUpInside" id="p6S-b9-Lfz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ex5-Yk-xUw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="OFp-6l-1rb" id="0q0-RR-aqR"/>
                         <outlet property="emailTextField" destination="v6j-h7-aCr" id="FxV-c4-0qx"/>
                         <outlet property="errorLabel" destination="WAt-bp-vkW" id="8Tp-SV-AM8"/>
                         <outlet property="nameTextField" destination="Fxu-2v-rfl" id="zdt-uU-8Ec"/>

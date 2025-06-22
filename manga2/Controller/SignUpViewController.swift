@@ -1,6 +1,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import PKHUD
 
 class SignUpViewController: UIViewController {
     
@@ -9,6 +10,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var backButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,26 +25,38 @@ class SignUpViewController: UIViewController {
             errorLabel.text = "すべての項目を入力してください。"
             return
         }
+        HUD.show(.labeledProgress(title: "", subtitle: "登録中です"))
         
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
             
             if let error = error as NSError? {
-                self.errorLabel.text =  self.errorMessage(forErrorCode: AuthErrorCode.Code(rawValue: error.code))
-                
+                self.errorLabel.text = self.errorMessage(forErrorCode: AuthErrorCode.Code(rawValue: error.code))
+                self.signUpButton.isEnabled = true
                 return
             }
             
-            // 登録成功時の処理: Firestoreにユーザー情報を保存
             if let user = authResult?.user {
                 self.saveUserDataToFirestore(userId: user.uid, name: name, email: email) { success in
+                    
+                    self.signUpButton.isEnabled = true
+                    
                     if success {
                         print("登録成功！")
-                        // ログイン後の画面へ遷移するなどの処理
-                        // 例: self.navigationController?.popViewController(animated: true)
+                        
+                        HUD.hide()
+                        let alert = UIAlertController(title: "登録完了", message: "アカウントの登録が完了しました。", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            if let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
+                                homeVC.modalPresentationStyle = .fullScreen
+                                self.present(homeVC, animated: true, completion: nil)
+                            }
+                        })
+                        self.present(alert, animated: true, completion: nil)
                     } else {
                         self.errorLabel.text = "ユーザー情報の保存に失敗しました。"
-                        // 必要に応じてFirebase Authenticationのユーザーを削除する処理を追加
+                        // 必要に応じてAuthの登録解除処理を追加
                     }
                 }
             }
@@ -52,7 +66,7 @@ class SignUpViewController: UIViewController {
     private func saveUserDataToFirestore(userId: String, name: String, email: String, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         db.collection("users").document(userId).setData([
-            "userId" : userId,
+            "userId": userId,
             "name": name,
             "email": email
         ]) { error in
@@ -87,8 +101,8 @@ class SignUpViewController: UIViewController {
             return "登録に失敗しました。しばらくしてから再度お試しください。"
         }
     }
+    @IBAction func backButton (_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
-
-
-
 
