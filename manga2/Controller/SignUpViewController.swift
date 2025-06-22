@@ -51,6 +51,7 @@ class SignUpViewController: UIViewController {
     private func saveUserDataToFirestore(userId: String, name: String, email: String, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         db.collection("users").document(userId).setData([
+            "userId" : userId,
             "name": name,
             "email": email
         ]) { error in

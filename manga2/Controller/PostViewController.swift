@@ -146,9 +146,11 @@ class PostViewController: UIViewController, UICollectionViewDelegate, UICollecti
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let createdAt = formatter.string(from: currentDate)
         
+        let currentUserID = Auth.auth().currentUser?.uid ?? ""
+        
         print(thumbnailURL)
         
-        let post = Post(id: uuid.uuidString, title: title, userId: "exampleUserId", postImages: postImages, thumbnailPost: thumbnailURL, createdAt: createdAt, isLiked: false)
+        let post = Post(id: uuid.uuidString, title: title, userId: currentUserID, postImages: postImages, thumbnailPost: thumbnailURL, createdAt: createdAt, isLiked: false)
         
         let postData: [String: Any] = [
             "id": post.id,
