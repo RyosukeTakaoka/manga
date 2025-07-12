@@ -2,6 +2,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import PKHUD
+import SwiftUI
 
 class SignUpViewController: UIViewController {
     
@@ -14,8 +15,16 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        errorLabel.text = ""
-        setDismissKeybord()
+        // SwiftUIのHomeViewをホスティング
+        let registerView =  RegisterUIView(viewController: self)
+        let hostingController = UIHostingController(rootView: registerView)
+        
+        // HostingControllerのビューを子ビューとして追加
+        addChild(hostingController)
+        hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(hostingController.view)
+        hostingController.didMove(toParent: self)
     }
     
     @IBAction func signUpButtonTapped(_ sender: UIButton) {
@@ -103,6 +112,22 @@ class SignUpViewController: UIViewController {
     }
     @IBAction func backButton (_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func Register(name: String, email: String, password: String, completion: @escaping (Bool) -> Void) {
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+            
+            if let _ = authResult?.user {
+                completion(true)  // 成功時
+            } else {
+                completion(false) // 失敗時
+            }
+        }
+    }
+    //画面遷移
+    func move1() {
+        self.performSegue(withIdentifier: "toBarController2", sender: nil)
     }
 }
 

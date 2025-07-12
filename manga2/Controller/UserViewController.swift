@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class UserViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -32,11 +33,16 @@ class UserViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! MainTableViewCell
         return cell
     }
-    //    let myImage = UIImage(named: "myImage") // 表示させたい画像
-    //    let imageWidth: CGFloat = 50 // 表示するときの幅
-    //
-    //    let imageView = UIImageView()
-    //    imageView.image = myImage?.cropResizedSquare(imageWidth)
-    //    imageView.layer.cornerRadius = imageWidth * 0.5
-    //    imageView.clipsToBounds = true
+    
+    @IBAction func logoutButtonTapped(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "toLoginViewController", sender: nil)
+        } catch let error {
+            print("ログアウトに失敗しました: \(error.localizedDescription)")
+            // 必要に応じてアラートを表示してもOK
+        }
+    }
+    
 }
+

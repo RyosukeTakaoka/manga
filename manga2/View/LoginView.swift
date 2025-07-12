@@ -7,6 +7,9 @@ struct LoginUIView: View {
     @State var inputPassword: String = ""
     @State private var isPresented: Bool = false
     
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .center) {
@@ -14,9 +17,14 @@ struct LoginUIView: View {
                     .font(.system(size: 48, weight: .heavy))
                 
                 VStack(spacing: 24) {
+                    // ここにcontentTypeを追加
                     TextField("Mail address", text: $inputEmail)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(maxWidth: 280)
+                        .keyboardType(.emailAddress)
+                        .textContentType(.emailAddress)  // ★ここを追加
+                        .autocapitalization(.none)
+                        .disableAutocorrection(true)
                     
                     SecureField("Password", text: $inputPassword)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -25,12 +33,19 @@ struct LoginUIView: View {
                 .frame(height: 200)
                 
                 Button(action: {
+                    if !isValidEmail(inputEmail) {
+                        alertMessage = "メールアドレスの形式が正しくありません"
+                        showAlert = true
+                        return
+                    }
                     viewController.Login(email: inputEmail, password: inputPassword) { success in
                         if success {
                             print("ログイン成功")
                             viewController.move1()
                         } else {
                             print("ログイン失敗")
+                            alertMessage = "ログインに失敗しました"
+                            showAlert = true
                         }
                     }
                 }) {
@@ -42,9 +57,9 @@ struct LoginUIView: View {
                         .background(Color.accentColor)
                         .cornerRadius(8)
                 }
-
-
-
+                .alert(isPresented: $showAlert) {
+                    Alert(title: Text("エラー"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+                }
                 
                 Button(action: {
                     isPresented = true
@@ -62,8 +77,20 @@ struct LoginUIView: View {
                 }
             }
         }
+        .contentShape(Rectangle()) // タップ可能な領域を拡張
+        .onTapGesture {
+            // キーボードを閉じる
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+    }
+    // メールアドレスバリデーション関数
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: email)
     }
 }
+
 struct SignUpViewControllerWrapper: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> some UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

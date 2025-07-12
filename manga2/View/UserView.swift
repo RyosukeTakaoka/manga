@@ -1,4 +1,6 @@
 import SwiftUI
+import Firebase
+
 
 struct SavedItem {
     let id = UUID()
@@ -8,9 +10,11 @@ struct SavedItem {
     let thumbnailName: String
     let isRead: Bool
     let progress: Double // 0.0 to 1.0
+    
 }
 
 struct UserSavedPage: View {
+    var viewcontroller = UserViewController()
     @State private var savedItems: [SavedItem] = [
         SavedItem(title: "地縛少年花子くん", episode: "第1話", savedDate: Date().addingTimeInterval(-86400), thumbnailName: "hanako1", isRead: false, progress: 0.3),
         SavedItem(title: "地縛少年花子くん", episode: "第2話", savedDate: Date().addingTimeInterval(-172800), thumbnailName: "hanako2", isRead: true, progress: 1.0),
