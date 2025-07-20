@@ -46,15 +46,5 @@ class UserViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    @IBAction func logoutButtonTapped(_ sender: UIBarButtonItem) {
-        do {
-            try Auth.auth().signOut()
-            self.performSegue(withIdentifier: "toLoginViewController", sender: nil)
-        } catch let error {
-            print("ログアウトに失敗しました: \(error.localizedDescription)")
-            // 必要に応じてアラートを表示してもOK
-        }
-    }
-    
 }
 

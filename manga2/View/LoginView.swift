@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginUIView: View {
+struct LoginView: View {
     var viewController = LoginViewController()
     
     @State var inputEmail: String = ""

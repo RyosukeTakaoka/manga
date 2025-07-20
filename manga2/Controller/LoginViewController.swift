@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // SwiftUIのHomeViewをホスティング
-        let loginView =  LoginUIView(viewController: self)
+        let loginView =  LoginView(viewController: self)
         let hostingController = UIHostingController(rootView: loginView)
         
         // HostingControllerのビューを子ビューとして追加

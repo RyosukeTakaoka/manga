@@ -26,6 +26,8 @@ struct UserView: View {
     @State private var searchText = ""
     @State private var sortOption: SortOption = .dateDescending
     @State private var showingFilterSheet = false
+    // 表示フラグ
+    @State private var isShowingView: Bool = false
     
     enum SortOption: String, CaseIterable {
         case dateDescending = "保存日時（新しい順）"
@@ -73,6 +75,9 @@ struct UserView: View {
                 filterSheet
             }
         }
+        .fullScreenCover(isPresented: $isShowingView) {
+            LoginView()
+        }
     }
     
     private var headerSection: some View {
@@ -96,8 +101,16 @@ struct UserView: View {
                 Spacer()
                 
                 // Settings button
-                Button(action: {}) {
-                    Image(systemName: "gearshape.fill")
+                Button(action: {
+                    do {
+                        try Auth.auth().signOut()
+                        isShowingView = true
+                    } catch let error {
+                        print("ログアウトに失敗しました: \(error.localizedDescription)")
+                        // 必要に応じてアラートを表示してもOK
+                    }
+                }) {
+                    Image(systemName: "rectangle.portrait.and.arrow.forward")
                         .font(.title2)
                         .foregroundColor(.gray)
                 }
