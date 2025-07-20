@@ -1,10 +1,13 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 import PKHUD
 import SwiftUI
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var selectedImage: UIImage?
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
@@ -16,7 +19,7 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // SwiftUIのHomeViewをホスティング
-        let registerView =  RegisterUIView(viewController: self)
+        let registerView = RegisterUIView(viewController: self)
         let hostingController = UIHostingController(rootView: registerView)
         
         // HostingControllerのビューを子ビューとして追加
@@ -42,43 +45,70 @@ class SignUpViewController: UIViewController {
             if let error = error as NSError? {
                 self.errorLabel.text = self.errorMessage(forErrorCode: AuthErrorCode.Code(rawValue: error.code))
                 self.signUpButton.isEnabled = true
+                HUD.hide()
                 return
             }
             
             if let user = authResult?.user {
-                self.saveUserDataToFirestore(userId: user.uid, name: name, email: email) { success in
-                    
-                    self.signUpButton.isEnabled = true
-                    
-                    if success {
-                        print("登録成功！")
-                        
-                        HUD.hide()
-                        let alert = UIAlertController(title: "登録完了", message: "アカウントの登録が完了しました。", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
-                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            if let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
-                                homeVC.modalPresentationStyle = .fullScreen
-                                self.present(homeVC, animated: true, completion: nil)
-                            }
-                        })
-                        self.present(alert, animated: true, completion: nil)
-                    } else {
-                        self.errorLabel.text = "ユーザー情報の保存に失敗しました。"
-                        // 必要に応じてAuthの登録解除処理を追加
+                // 画像がある場合は画像をアップロードしてからユーザー情報を保存
+                if let image = self.selectedImage {
+                    self.uploadImageToFirebase(image: image, userId: user.uid) { imageUrl in
+                        self.saveUserDataToFirestore(userId: user.uid, name: name, email: email, imageUrl: imageUrl) { success in
+                            self.handleRegistrationResult(success: success)
+                        }
+                    }
+                } else {
+                    // 画像がない場合はそのままユーザー情報を保存
+                    self.saveUserDataToFirestore(userId: user.uid, name: name, email: email, imageUrl: nil) { success in
+                        self.handleRegistrationResult(success: success)
                     }
                 }
             }
         }
     }
     
-    private func saveUserDataToFirestore(userId: String, name: String, email: String, completion: @escaping (Bool) -> Void) {
+    private func uploadImageToFirebase(image: UIImage, userId: String, completion: @escaping (String?) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            completion(nil)
+            return
+        }
+        
+        let storage = Storage.storage()
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child("profile_images/\(userId).jpg")
+        
+        imageRef.putData(imageData, metadata: nil) { metadata, error in
+            if let error = error {
+                print("画像アップロードエラー: \(error)")
+                completion(nil)
+                return
+            }
+            
+            imageRef.downloadURL { url, error in
+                if let error = error {
+                    print("画像URL取得エラー: \(error)")
+                    completion(nil)
+                } else {
+                    completion(url?.absoluteString)
+                }
+            }
+        }
+    }
+    
+    private func saveUserDataToFirestore(userId: String, name: String, email: String, imageUrl: String?, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
-        db.collection("users").document(userId).setData([
+        var userData: [String: Any] = [
             "userId": userId,
             "name": name,
-            "email": email
-        ]) { error in
+            "email": email,
+            "createdAt": Timestamp(date: Date())
+        ]
+        
+        if let imageUrl = imageUrl {
+            userData["profileImageUrl"] = imageUrl
+        }
+        
+        db.collection("users").document(userId).setData(userData) { error in
             if let error = error {
                 print("Firestoreへのデータ保存エラー: \(error)")
                 completion(false)
@@ -86,6 +116,26 @@ class SignUpViewController: UIViewController {
                 print("Firestoreへのユーザーデータ保存成功！")
                 completion(true)
             }
+        }
+    }
+    
+    private func handleRegistrationResult(success: Bool) {
+        self.signUpButton.isEnabled = true
+        HUD.hide()
+        
+        if success {
+            print("登録成功！")
+            let alert = UIAlertController(title: "登録完了", message: "アカウントの登録が完了しました。", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                if let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
+                    homeVC.modalPresentationStyle = .fullScreen
+                    self.present(homeVC, animated: true, completion: nil)
+                }
+            })
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.errorLabel.text = "ユーザー情報の保存に失敗しました。"
         }
     }
     
@@ -110,24 +160,59 @@ class SignUpViewController: UIViewController {
             return "登録に失敗しました。しばらくしてから再度お試しください。"
         }
     }
+    
     @IBAction func backButton (_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func Register(name: String, email: String, password: String, completion: @escaping (Bool) -> Void) {
+    func Register(name: String, email: String, password: String, image: UIImage?, completion: @escaping (Bool) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }
             
-            if let _ = authResult?.user {
-                completion(true)  // 成功時
+            if let user = authResult?.user {
+                // 画像がある場合は画像をアップロードしてからユーザー情報を保存
+                if let image = image {
+                    self.uploadImageToFirebase(image: image, userId: user.uid) { imageUrl in
+                        self.saveUserDataToFirestore(userId: user.uid, name: name, email: email, imageUrl: imageUrl) { success in
+                            completion(success)
+                        }
+                    }
+                } else {
+                    // 画像がない場合はそのままユーザー情報を保存
+                    self.saveUserDataToFirestore(userId: user.uid, name: name, email: email, imageUrl: nil) { success in
+                        completion(success)
+                    }
+                }
             } else {
-                completion(false) // 失敗時
+                completion(false)
             }
         }
     }
+    
     //画面遷移
     func move1() {
         self.performSegue(withIdentifier: "toBarController2", sender: nil)
     }
+    
+    func presentImagePicker() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        picker.allowsEditing = true
+        self.present(picker, animated: true)
+    }
+    
+    // 選択後の処理
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let editedImage = info[.editedImage] as? UIImage {
+            selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            selectedImage = originalImage
+        }
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
 }
-

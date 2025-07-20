@@ -13,7 +13,7 @@ struct SavedItem {
     
 }
 
-struct UserSavedPage: View {
+struct UserView: View {
     var viewcontroller = UserViewController()
     @State private var savedItems: [SavedItem] = [
         SavedItem(title: "地縛少年花子くん", episode: "第1話", savedDate: Date().addingTimeInterval(-86400), thumbnailName: "hanako1", isRead: false, progress: 0.3),
@@ -327,8 +327,8 @@ struct StatView: View {
     }
 }
 
-struct UserSavedPage_Previews: PreviewProvider {
+struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserSavedPage()
+        UserView()
     }
 }

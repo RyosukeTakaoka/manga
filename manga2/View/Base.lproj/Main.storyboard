@@ -257,12 +257,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cvx-Ww-VmE">
-                                <rect key="frame" x="16" y="20" width="75" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJm-bX-ij8">
                                 <rect key="frame" x="281" y="37" width="104" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -270,7 +264,6 @@
                                 <buttonConfiguration key="configuration" style="plain" title="ログアウト"/>
                                 <connections>
                                     <action selector="logoutButtonTapped:" destination="18d-ol-UYU" eventType="touchUpInside" id="bTf-xl-Zsq"/>
-                                    <segue destination="izr-KD-HSe" kind="show" identifier="toLoginViewController" id="wm9-Wa-2gN"/>
                                 </connections>
                             </button>
                         </subviews>

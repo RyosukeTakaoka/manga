@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import SwiftUI
 
 class UserViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -22,6 +23,17 @@ class UserViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.dataSource = self
         
         tableView.register(UINib(nibName: "MainTableViewCell", bundle: nil), forCellReuseIdentifier: "customCell")
+        
+        // SwiftUIのuserViewをホスティング
+        let userView = UserView()
+        let hostingController = UIHostingController(rootView: userView)
+        
+        // HostingControllerのビューを子ビューとして追加
+        addChild(hostingController)
+        hostingController.view.frame = view.bounds
+        hostingController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(hostingController.view)
+        hostingController.didMove(toParent: self)
         
     }
     //表示する個数
